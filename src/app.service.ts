@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class AppService {
+
   getHello(): string {
     return 'Hello World!';
   }
@@ -37,6 +38,7 @@ export class AppService {
 
     return new Observable<any>((observer) => {
       client.send(command).then((response) => {
+        console.log(response.output.message.content[0].text);
         observer.next(response);
         observer.complete();
       }).catch((err) => {

@@ -1,10 +1,11 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+import { RagService } from './rag/rag.service';
 import { Observable } from 'rxjs';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService, private readonly ragService: RagService) {}
 
   @Get()
   getHello(): string {
@@ -13,6 +14,10 @@ export class AppController {
 
   @Post()
   converse(@Body() data: any): Observable<any> {
-    return this.appService.converse(data);
+    if (data.rag) {
+      return this.ragService.converse(data);
+    } else {
+      return this.appService.converse(data);
+    }
   }
 }
